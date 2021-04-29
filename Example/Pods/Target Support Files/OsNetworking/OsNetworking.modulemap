@@ -1,0 +1,6 @@
+framework module OsNetworking {
+  umbrella header "OsNetworking-umbrella.h"
+
+  export *
+  module * { export * }
+}
