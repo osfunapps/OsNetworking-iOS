@@ -15,7 +15,7 @@ public class ByteBufferWrapper {
     private var _totalLength: Int!
     var _offset = 0
     
-    init(packet: Data = Data()) {
+    public init(packet: Data = Data()) {
         self._packet = packet
         _totalLength = packet.count
         _offset = 0
