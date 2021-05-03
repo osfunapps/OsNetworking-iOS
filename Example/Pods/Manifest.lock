@@ -1,11 +1,11 @@
 PODS:
-  - OsNetworking (0.1.0):
+  - OsNetworking (0.1.4):
     - OsTools
-  - OsTools (0.5.9)
+  - OsTools (0.6.1)
 
 DEPENDENCIES:
   - OsNetworking (from `../`)
-  - OsTools (= 0.5.9)
+  - OsTools (= 0.6.1)
 
 SPEC REPOS:
   trunk:
@@ -16,9 +16,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  OsNetworking: 61cd7b13614f29c2762ba2b670b5140b6f6eecbf
-  OsTools: 3d7e810b884bb1e836137d1f05aaa9ab42dd905e
+  OsNetworking: a3c4af669e7352db813632d6df983990cc35acc6
+  OsTools: 2e90279eb504fa5cc35ca707954c80223c3c13ac
 
-PODFILE CHECKSUM: cb9b1fa5e3def621a37d25286f3e2d938ce302d3
+PODFILE CHECKSUM: 5dc17a59d6d3d6dcdfb2e8f5696e93b4c9dc979b
 
 COCOAPODS: 1.10.1
