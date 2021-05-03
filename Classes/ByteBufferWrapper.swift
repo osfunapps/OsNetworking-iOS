@@ -24,12 +24,12 @@ public class ByteBufferWrapper {
     
     // MARK: - write
     
-    func writeBytes (data: Data) {
+    public func writeBytes (data: Data) {
         self._add(data: data)
     }
     
     /// will write a string to the packet
-    func writeSGString(data: String) {
+    public func writeSGString(data: String) {
         let uInt8Value0 = UInt8(data.count >> 8)
         let uInt8Value1 = UInt8(data.count & 0x00ff)
         let lengthBuffer = Data([uInt8Value0, uInt8Value1])
@@ -42,19 +42,19 @@ public class ByteBufferWrapper {
     }
     
     /// will write a single byte to the buffer
-    func writeUInt8(data: UInt8) {
+    public func writeUInt8(data: UInt8) {
         _add(data:  Data([data]))
     }
     
     /// will write 2 bytes to the packet
-    func writeUInt16BE(data: Int) {
+    public func writeUInt16BE(data: Int) {
         let uInt8Value0 = UInt8(data >> 8)
         let uInt8Value1 = UInt8(data & 0x00ff)
         _add(data: Data([uInt8Value0, uInt8Value1]))
     }
     
     /// will write 8 bytes to the packet
-    func writeUInt64LE(value: Int) {
+    public func writeUInt64LE(value: Int) {
         let byte1 = UInt8(value & 0xff)
         let byte2 = UInt8(value >> 8 & 0xff)
         let byte3 = UInt8(value >> 16 & 0xff)
@@ -81,7 +81,7 @@ public class ByteBufferWrapper {
     
     
     /// will write 4 bytes to the packet
-    func writeUInt32BE(data: Int) {
+    public func writeUInt32BE(data: Int) {
         let __data = UInt32(data)
         let byte1 = UInt8(data & 0x000000FF)         // 10
         let byte2 = UInt8((data & 0x0000FF00) >> 8)  // 154
@@ -92,7 +92,7 @@ public class ByteBufferWrapper {
         //        self._packet = self._packet + bytes
     }
     
-    func writeUInt32LE(value: Int) {
+    public func writeUInt32LE(value: Int) {
         let byte1 = UInt8(value & 0xff)
         let byte2 = UInt8(value >> 8 & 0xff)
         let byte3 = UInt8(value >> 16 & 0xff)
@@ -100,68 +100,68 @@ public class ByteBufferWrapper {
         _add(data: Data([byte1, byte2, byte3, byte4]))
     }
     
-    func writeUInt16LE(value: Int) {
+    public func writeUInt16LE(value: Int) {
         let byte1 = UInt8(value & 0xff)
         let byte2 = UInt8(value >> 8 & 0xff)
         _add(data: Data([byte1, byte2]))
     }
     
     
-    func writeFloat32LE(valToAdd: Float) {
+    public func writeFloat32LE(valToAdd: Float) {
         writeUInt32LE(value: Int(valToAdd.bitPattern))
     }
     
     
-    func writeFloat32BE(valToAdd: Float) {
+    public func writeFloat32BE(valToAdd: Float) {
         writeUInt32BE(data: Int(valToAdd.bitPattern))
     }
     
     // MARK: - read
     
     /// will read a single byte from the buffer
-    func readUInt8() throws -> UInt8 {
+    public func readUInt8() throws -> UInt8 {
         let value = try readPointee(size: 1) as UInt8
         return UInt8(bigEndian: value)
     }
     
     /// Method to get a UInt16 from two bytes in the byte array (little-endian).
-    func readUInt16LE() throws -> UInt16 {
+    public func readUInt16LE() throws -> UInt16 {
         let value = try readPointee(size: 2) as UInt16
         return UInt16(littleEndian: value)
     }
     
     /// Method to get a UInt16 from two bytes in the byte array (big-endian).
-    func readUInt16BE() throws -> UInt16 {
+    public func readUInt16BE() throws -> UInt16 {
         let value = try readPointee(size: 2) as UInt16
         return UInt16(bigEndian: value)
     }
     
     /// Method to get a UInt32 from four bytes in the byte array (little-endian).
-    func readUInt32LE() throws -> UInt32 {
+    public func readUInt32LE() throws -> UInt32 {
         let value = try readPointee(size: 4) as UInt32
         return UInt32(littleEndian: value)
     }
     
     /// Method to get a UInt16 from two bytes in the byte array (big-endian).
-    func readUInt32BE() throws -> UInt32 {
+    public func readUInt32BE() throws -> UInt32 {
         let value = try readPointee(size: 4) as UInt32
         return UInt32(bigEndian: value)
     }
     
     /// Method to get a UInt64 from four bytes in the byte array (little-endian). (It's basically "readLong")
-    func readUInt64LE() throws -> UInt64 {
+    public func readUInt64LE() throws -> UInt64 {
         let value = try readPointee(size: 4) as UInt64
         return UInt64(littleEndian: value)
     }
     
     /// Method to get a UInt64 from four bytes in the byte array (big-endian). (It's basically "readLong")
-    func readUInt64BE() throws -> UInt64 {
+    public func readUInt64BE() throws -> UInt64 {
         let value = try readPointee(size: 4) as UInt64
         return UInt64(bigEndian: value)
     }
     
     /// will read a string from the packet
-    func readSGString() throws -> String  {
+    public func readSGString() throws -> String  {
         
         let dataLength = try self.readUInt16BE()
         if self._offset > _packet.count || self._offset + Int(dataLength) > self._packet.count {
@@ -177,7 +177,7 @@ public class ByteBufferWrapper {
         return str
     }
     
-    func readLESGString() throws -> String {
+    public func readLESGString() throws -> String {
         let dataLength = Int(try self.readUInt16LE())
         let data = try self._packet.slice(self._offset, self._offset + dataLength);
         
@@ -187,26 +187,26 @@ public class ByteBufferWrapper {
     
     
     
-    func readFloat32LE() throws -> Float {
+    public func readFloat32LE() throws -> Float {
         return Float.init(bitPattern: try readUInt32LE())
     }
     
-    func readFloat32BE() throws -> Float {
+    public func readFloat32BE() throws -> Float {
         return Float.init(bitPattern: try readUInt32BE())
     }
     
     
-    func readIntLE() throws -> Int {
+    public func readIntLE() throws -> Int {
         return Int(try readUInt32LE())
     }
     
-    func readIntBE() throws -> Int {
+    public func readIntBE() throws -> Int {
         return Int(try readUInt32BE())
     }
     
     
     /// will read bytes from the packet
-    func readBytes(count: Int = 0) throws -> Data {
+    public func readBytes(count: Int = 0) throws -> Data {
         var data: Data = Data()
         if count == 0 {
             data = try self._packet.slice(self._offset)
@@ -239,7 +239,7 @@ public class ByteBufferWrapper {
         self._packet = self._packet + data
     }
     
-    func toBuffer() -> Data {
+    public func toBuffer() -> Data {
         return self._packet
     }
     
@@ -280,8 +280,8 @@ public class ByteBufferWrapper {
     }
     
 }
-    
-    enum ByteBufError: Error {
-        case bufferUnderflowException
-        case stringParseException
-    }
+
+public enum ByteBufError: Error {
+    case bufferUnderflowException
+    case stringParseException
+}
