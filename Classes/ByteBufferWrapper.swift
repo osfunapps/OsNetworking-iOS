@@ -11,9 +11,9 @@ import OsTools
 /// Just a simple bye buffer. Init to read/write to/from bytes (readUint16, writeUint16 and more...)
 public class ByteBufferWrapper {
     
-    var _packet: Data!
+    public var _packet: Data!
     private var _totalLength: Int!
-    var _offset = 0
+    public var _offset = 0
     
     public init(packet: Data = Data()) {
         self._packet = packet
