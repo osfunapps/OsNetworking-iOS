@@ -22,6 +22,7 @@
 		B6550EDBEB47E3EFFB488EF76D625EEC /* Pods-OsNetworking_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CF7C8D92F8A61C3C6453AF2EBC7DA25 /* Pods-OsNetworking_Example-dummy.m */; };
 		B9F5B6F51A38777014E2C547A674C030 /* OsTools-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C6383AEE86084D292EF8CD298EF4AAD7 /* OsTools-dummy.m */; };
 		C2CDCD14757B4BD2DFC333322E7A42AC /* Pods-OsNetworking_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B2209FE5D4093205208617C9716738A8 /* Pods-OsNetworking_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4B82EC0263FF82F004A07E6 /* CryptoTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B82EBF263FF82F004A07E6 /* CryptoTools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,13 +53,13 @@
 		001B7AE78533F97A15D92881A2AA8F2D /* OsTools-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OsTools-prefix.pch"; sourceTree = "<group>"; };
 		03459A97B668031D2F0BD17A612DF754 /* Tools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tools.swift; path = Classes/Tools.swift; sourceTree = "<group>"; };
 		08497621C72DC6644AD66EC22FC85A52 /* OtherTools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OtherTools.swift; path = Classes/OtherTools.swift; sourceTree = "<group>"; };
-		1077440CFBD4FB7476996FA086AC7EE7 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		1077440CFBD4FB7476996FA086AC7EE7 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		118A02130B1701E26F8E9CDCBBD17EA6 /* Pods-OsNetworking_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OsNetworking_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		1AB2D17CBFBF006DDD84C7A5B284746C /* Pods-OsNetworking_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OsNetworking_Example-Info.plist"; sourceTree = "<group>"; };
 		31AEB9A588653B70CA6111A6539FD3A2 /* OsNetworking-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OsNetworking-umbrella.h"; sourceTree = "<group>"; };
 		33FBE5D5525CB1B17197B63C6B037CCF /* OsNetworking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OsNetworking.debug.xcconfig; sourceTree = "<group>"; };
 		44DF0AA5D78C681640934346BD950D61 /* OsTools-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "OsTools-Info.plist"; sourceTree = "<group>"; };
-		4591F3439DF6557887D101F2DC003AE6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		4591F3439DF6557887D101F2DC003AE6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		553BCEEF7BA668D83A9C26A9619B6D18 /* Pods-OsNetworking_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OsNetworking_Example.release.xcconfig"; sourceTree = "<group>"; };
 		57B4E208CEC8A8B2B54FF6D06A161677 /* OsNetworking-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OsNetworking-dummy.m"; sourceTree = "<group>"; };
 		5ECBB715A2506A320D5CF6D2EF93002B /* OsNetworking-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OsNetworking-prefix.pch"; sourceTree = "<group>"; };
@@ -69,22 +70,23 @@
 		8ABB5C2CA388EE6DD7E5D08BD4145121 /* OsTools-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OsTools-umbrella.h"; sourceTree = "<group>"; };
 		8C60CF38D102B6DCB5D4422B64982AF3 /* OsNetworking-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "OsNetworking-Info.plist"; sourceTree = "<group>"; };
 		953A3D08085716B82F8954E78F1A43D4 /* OsTools.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OsTools.modulemap; sourceTree = "<group>"; };
-		9632528485F62CCC4953BE08721B6C02 /* OsTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OsTools.framework; path = OsTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9632528485F62CCC4953BE08721B6C02 /* OsTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OsTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CF7C8D92F8A61C3C6453AF2EBC7DA25 /* Pods-OsNetworking_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OsNetworking_Example-dummy.m"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A8F3BE1CE7E511A3FEB3996C5BB30DCE /* extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = extensions.swift; path = Classes/extensions.swift; sourceTree = "<group>"; };
 		AAD907A4E26575DBA08506A20F1E7050 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B04CEB2FAED69866CCB810F7844D5BB2 /* OsTools.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OsTools.release.xcconfig; sourceTree = "<group>"; };
-		B1E2D4CCC11A3C6A340D71313DCB628B /* Pods_OsNetworking_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_OsNetworking_Example.framework; path = "Pods-OsNetworking_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1E2D4CCC11A3C6A340D71313DCB628B /* Pods_OsNetworking_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OsNetworking_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2209FE5D4093205208617C9716738A8 /* Pods-OsNetworking_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OsNetworking_Example-umbrella.h"; sourceTree = "<group>"; };
 		BAE006A8F95438EE8C9A78D609251282 /* PointerExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PointerExtensions.swift; path = Classes/PointerExtensions.swift; sourceTree = "<group>"; };
 		BDDC829D2FD38AFF48977848C3A73A0B /* OsTools.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OsTools.debug.xcconfig; sourceTree = "<group>"; };
 		C6383AEE86084D292EF8CD298EF4AAD7 /* OsTools-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OsTools-dummy.m"; sourceTree = "<group>"; };
 		D3523CC105B7C3401D561CC57348F7D8 /* OsNetworking.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OsNetworking.modulemap; sourceTree = "<group>"; };
-		E463B79225C3F970043398BEE449D1A4 /* OsNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OsNetworking.framework; path = OsNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E463B79225C3F970043398BEE449D1A4 /* OsNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OsNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53D6611E80A141CBA8F4E31D819F5A2 /* Pods-OsNetworking_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OsNetworking_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		F281EDBFFA42D24B8716FAEB6F05AED0 /* OsNetworking.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = OsNetworking.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F281EDBFFA42D24B8716FAEB6F05AED0 /* OsNetworking.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = OsNetworking.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F39CFF4EA49510B54635C3B14004BFBC /* Pods-OsNetworking_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OsNetworking_Example-frameworks.sh"; sourceTree = "<group>"; };
+		F4B82EBF263FF82F004A07E6 /* CryptoTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoTools.swift; path = Classes/CryptoTools.swift; sourceTree = "<group>"; };
 		FC30EE7524C03D948556FC7C0D902E72 /* ByteBufferWrapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ByteBufferWrapper.swift; path = Classes/ByteBufferWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -170,6 +172,7 @@
 		77C4364CF94086E82D89B71A7BF7FDED /* OsNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				F4B82EBF263FF82F004A07E6 /* CryptoTools.swift */,
 				FC30EE7524C03D948556FC7C0D902E72 /* ByteBufferWrapper.swift */,
 				BAE006A8F95438EE8C9A78D609251282 /* PointerExtensions.swift */,
 				E6AA9A5C6284026AB6CEC07401FFDD31 /* Pod */,
@@ -257,7 +260,6 @@
 				03459A97B668031D2F0BD17A612DF754 /* Tools.swift */,
 				B6069A13BEF2FB5745B03A0D11D3A62C /* Support Files */,
 			);
-			name = OsTools;
 			path = OsTools;
 			sourceTree = "<group>";
 		};
@@ -427,6 +429,7 @@
 			files = (
 				76FDCD442E3B9C4CCD5FCE6E907A38F1 /* ByteBufferWrapper.swift in Sources */,
 				29831B1DCDC32504FE69236DD150AA0A /* OsNetworking-dummy.m in Sources */,
+				F4B82EC0263FF82F004A07E6 /* CryptoTools.swift in Sources */,
 				0F2FCE851F697AC909FAB3EA65971289 /* PointerExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,8 +643,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
