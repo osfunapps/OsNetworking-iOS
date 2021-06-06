@@ -137,6 +137,20 @@ extension Int {
         let byte8 = UInt8(self >> 56 & 0xff)
         return Data([byte1, byte2, byte3, byte4, byte5, byte6, byte7, byte8])
     }
+    
+    /// Will break a number to 8 (big endian) bytes and add it to a data object
+    public func writeUInt64BE(number: Int) -> Data {
+        let byte1 = UInt8(number & 0xff)
+        let byte2 = UInt8(number >> 8 & 0xff)
+        let byte3 = UInt8(number >> 16 & 0xff)
+        let byte4 = UInt8(number >> 24 & 0xff)
+        let byte5 = UInt8(number >> 32 & 0xff)
+        let byte6 = UInt8(number >> 40 & 0xff)
+        let byte7 = UInt8(number >> 48 & 0xff)
+        let byte8 = UInt8(number >> 56 & 0xff)
+        return Data([byte8, byte7, byte6, byte5, byte4, byte3, byte2, byte1])
+    }
+    
 }
 
 

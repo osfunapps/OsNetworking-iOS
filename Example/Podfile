@@ -5,5 +5,5 @@ platform :ios, '10.0'
 target 'OsNetworking_Example' do
   pod 'OsNetworking', :path => '../'
 
-  pod 'OsTools', '0.6.1'
+  pod 'OsTools'
 end
