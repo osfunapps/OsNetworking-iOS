@@ -139,15 +139,15 @@ extension Int {
     }
     
     /// Will break a number to 8 (big endian) bytes and add it to a data object
-    public func writeUInt64BE(number: Int) -> Data {
-        let byte1 = UInt8(number & 0xff)
-        let byte2 = UInt8(number >> 8 & 0xff)
-        let byte3 = UInt8(number >> 16 & 0xff)
-        let byte4 = UInt8(number >> 24 & 0xff)
-        let byte5 = UInt8(number >> 32 & 0xff)
-        let byte6 = UInt8(number >> 40 & 0xff)
-        let byte7 = UInt8(number >> 48 & 0xff)
-        let byte8 = UInt8(number >> 56 & 0xff)
+    public func writeUInt64BE() -> Data {
+        let byte1 = UInt8(self & 0xff)
+        let byte2 = UInt8(self >> 8 & 0xff)
+        let byte3 = UInt8(self >> 16 & 0xff)
+        let byte4 = UInt8(self >> 24 & 0xff)
+        let byte5 = UInt8(self >> 32 & 0xff)
+        let byte6 = UInt8(self >> 40 & 0xff)
+        let byte7 = UInt8(self >> 48 & 0xff)
+        let byte8 = UInt8(self >> 56 & 0xff)
         return Data([byte8, byte7, byte6, byte5, byte4, byte3, byte2, byte1])
     }
     
@@ -189,5 +189,15 @@ extension Array where Element == UInt8  {
         self[offset + 7] = UInt8(number >> 56 & 0xff)
     }
     
-    
+    /// Will break a number to 8 (little endian) bytes and add them to the buffer starting a given offset
+    public mutating func writeUInt64BE(number: Int, offset: Int) {
+        self[offset] = UInt8(number >> 56 & 0xff)
+        self[offset + 1] = UInt8(number >> 48 & 0xff)
+        self[offset + 2] = UInt8(number >> 40 & 0xff)
+        self[offset + 3] = UInt8(number >> 32 & 0xff)
+        self[offset + 4] = UInt8(number >> 24 & 0xff)
+        self[offset + 5] = UInt8(number >> 16 & 0xff)
+        self[offset + 6] = UInt8(number >> 8 & 0xff)
+        self[offset + 7] = UInt8(number & 0xff)
+    }
 }
