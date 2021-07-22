@@ -90,6 +90,16 @@ extension String
         return NSString(string: self).boolValue
     }
     
+    /// Will strip all non digits from a string
+    public var digits: String {
+        return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+    }
+    
+    /// Will strip all non alpha characters from a string
+    public var alpha: String {
+        return components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+    }
+    
 }
 
 extension Array where Element: Equatable {
@@ -481,6 +491,12 @@ extension String {
         return self
     }
     
+    /// Will turn a data object containing this 64 format string
+    public func toBase64Data() -> Data? {
+        return Data(base64Encoded: self)
+    }
+    
+    
     // substring. To use:
     // let myStr = "lola"
     // let halfHint: String = myStr[0...myStr.count-2]
@@ -615,6 +631,9 @@ extension StringProtocol {
             return UInt8(self[startIndex..<endIndex], radix: 16)
         }
     }
+    
+    public var data: Data { .init(utf8) }
+    public var bytes: [UInt8] { .init(utf8) }
 }
 
 extension UUID {
@@ -675,22 +694,18 @@ extension UITextField {
         applyToolbar.sizeToFit()
         inputAccessoryView = applyToolbar
     }
+    
+    /// Will move the caret to the end of the line
+    public func moveCaretToLineEnd() {
+        self.selectedTextRange = self.textRange(from: self.endOfDocument, to: self.endOfDocument)
+    }
 }
 
 
 
 /// Will check if the keyboard present
 extension UIApplication {
-    /// Checks if view hierarchy of application contains `UIRemoteKeyboardWindow` if it does, keyboard is presented
-    public var isKeyboardPresented: Bool {
-        if let keyboardWindowClass = NSClassFromString("UIRemoteKeyboardWindow"),
-            self.windows.contains(where: { $0.isKind(of: keyboardWindowClass) }) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
+
     public static func openAppSetting() {
         if let url = URL(string:UIApplication.openSettingsURLString) {
             if UIApplication.shared.canOpenURL(url) {
@@ -702,8 +717,19 @@ extension UIApplication {
 
 /// Will return the last index of a char
 extension String {
+    
+    /// will seperate characters every n times with a seperator (like 123456 to 12:34:56)
+    public func separate(every stride: Int = 4, with separator: Character = " ") -> String {
+        return String(enumerated().map { $0 > 0 && $0 % stride == 0 ? [separator, $1] : [$1]}.joined())
+    }
+    
     public func lastIndexOf(string: String) -> Int? {
         guard let index = range(of: string, options: .backwards) else { return nil }
+        return self.distance(from: self.startIndex, to: index.lowerBound)
+    }
+    
+    public func firstIndexOf(string: String) -> Int? {
+        guard let index = range(of: string) else { return nil }
         return self.distance(from: self.startIndex, to: index.lowerBound)
     }
 }
@@ -782,8 +808,14 @@ extension Data {
     public var bytes: [UInt8] {
         return [UInt8](self)
     }
+    
+    
+    public func printBytes() {
+        print([UInt8](self))
+    }
 }
 
 public enum SliceError: Error {
     case outOfBoundsException
 }
+

@@ -148,6 +148,49 @@ public class Tools {
         viewController.navigationController?.navigationBar.topItem?.title = title;
     }
     
+    /// Will generate a random mac address
+    public static func generateRandomMACAddress() -> String {
+        var bArr = [UInt8](repeating: 0, count: 6)
+        
+        let status = SecRandomCopyBytes(kSecRandomDefault, bArr.count, &bArr)
+
+        if status != errSecSuccess { // Always test the status.
+            return "b6:58:d9:db:c9:ee"  // random number
+        }
+        
+        bArr[0] = UInt8((Int(bArr[0]) | 2) & -2)
+        var randomMACStr = ""
+        for b in bArr {
+            if randomMACStr.count > 0 {
+                randomMACStr += ":"
+            }
+            randomMACStr.append(String(format: "%02x", b))
+        }
+        return randomMACStr
+    }
+    
+    /// Will join path
+    public static func join(_ arguments: String...) -> String {
+        return NSString.path(withComponents: arguments)
+    }
+    
+    /// Will return the current device enum
+    public static func getCurrentDevice() ->UIUserInterfaceIdiom {
+        return UIDevice.current.userInterfaceIdiom
+    }
+    
+    /// Will return the current device (iPad, iPhone etc..)
+    public static func getCurrentDeviceParsed() -> String {
+        switch getCurrentDevice() {
+        case .carPlay: return "carPlay"
+        case .mac: return "Mac"
+        case .pad: return "iPad"
+        case .phone: return "iPhone"
+        case .tv: return "TV"
+        default:
+            return "device"
+        }
+    }
     
 }
 
