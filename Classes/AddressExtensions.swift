@@ -35,7 +35,7 @@ extension String {
 }
 
 extension Array where Element == Data {
-
+    
     /**
      Will return ipv4 or ipv6 addresses from a data object
      */
@@ -55,5 +55,5 @@ extension Array where Element == Data {
             return nil
         }
     }
-
+    
 }

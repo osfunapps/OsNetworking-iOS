@@ -22,6 +22,7 @@
 		E1093F52EB86FA9C59C3D79149AD2173 /* OtherTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08497621C72DC6644AD66EC22FC85A52 /* OtherTools.swift */; };
 		EAA59B3BDCFD42A3542A2F50D5E322A8 /* ByteBufferWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3153B42629BC7454E6CD2EB456DB03ED /* ByteBufferWrapper.swift */; };
 		F4C064E426A96D1800BAC65F /* AddressExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C064E326A96D1800BAC65F /* AddressExtensions.swift */; };
+		F4C064E826A980FC00BAC65F /* NetworkTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C064E726A980FC00BAC65F /* NetworkTools.swift */; };
 		F63B662E32F400F846E8A757F63ECFA1 /* OsTools-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C6383AEE86084D292EF8CD298EF4AAD7 /* OsTools-dummy.m */; };
 		F86F56EEE33B09A61A9A7889D6767247 /* OsNetworking-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 42604C4BB1A84FD6FA393EE73438C2D3 /* OsNetworking-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -89,6 +90,7 @@
 		ECE1D7EC8A44B174B724A3C68C6264B6 /* OsNetworking.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OsNetworking.modulemap; sourceTree = "<group>"; };
 		F39CFF4EA49510B54635C3B14004BFBC /* Pods-OsNetworking_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OsNetworking_Example-frameworks.sh"; sourceTree = "<group>"; };
 		F4C064E326A96D1800BAC65F /* AddressExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressExtensions.swift; path = Classes/AddressExtensions.swift; sourceTree = "<group>"; };
+		F4C064E726A980FC00BAC65F /* NetworkTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkTools.swift; path = Classes/NetworkTools.swift; sourceTree = "<group>"; };
 		FDC1575E7CBE11F34A41704513F44F4B /* OsNetworking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OsNetworking.release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 		5AEEA4FC7B3BF3A0936FA51E14FC3290 /* OsNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				F4C064E726A980FC00BAC65F /* NetworkTools.swift */,
 				F4C064E326A96D1800BAC65F /* AddressExtensions.swift */,
 				3153B42629BC7454E6CD2EB456DB03ED /* ByteBufferWrapper.swift */,
 				3C543DCD4BFD5F8E3ACDB28B9494B385 /* CryptoTools.swift */,
@@ -426,6 +429,7 @@
 				F4C064E426A96D1800BAC65F /* AddressExtensions.swift in Sources */,
 				7FA52820CF22F43B17A339929462950F /* CryptoTools.swift in Sources */,
 				A472CFAF7503E9DE81ED8E141C89B5C7 /* OsNetworking-dummy.m in Sources */,
+				F4C064E826A980FC00BAC65F /* NetworkTools.swift in Sources */,
 				590E08349A2DDF2456173A906C1E626A /* PointerExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
