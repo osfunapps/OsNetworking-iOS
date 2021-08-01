@@ -9,7 +9,7 @@ import Foundation
 import OsTools
 
 public class NetworkTools {
-
+    
     /// Will turn an ipv6 address to a mac address
     public static func ipv6ToMac(ipv6: String) -> String? {
         var ipv6Copy = ipv6
@@ -65,22 +65,29 @@ public class NetworkTools {
     }
     
     public static func isMACAddressValid(macAddressString: String) -> Bool {
-         var returnValue = true
-         let macRegEx = "^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$" // Format Only: XX:XX:XX:XX:XX:XX
-         //let macRegEx = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" // Format: XX:XX:XX:XX:XX:XX and XX-XX-XX-XX-XX-XX
-         do {
-             let regex = try NSRegularExpression(pattern: macRegEx)
-             let nsString = macAddressString as NSString
-             let results = regex.matches(in: macAddressString, range: NSRange(location: 0, length: nsString.length))
-             
-             if results.count == 0
-             {
-                 returnValue = false
-             }
-         } catch let error as NSError {
-             print("invalid regex: \(error.localizedDescription)")
-             returnValue = false
-         }
-         return  returnValue
-     }
+        var returnValue = true
+        let macRegEx = "^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$" // Format Only: XX:XX:XX:XX:XX:XX
+        //let macRegEx = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" // Format: XX:XX:XX:XX:XX:XX and XX-XX-XX-XX-XX-XX
+        do {
+            let regex = try NSRegularExpression(pattern: macRegEx)
+            let nsString = macAddressString as NSString
+            let results = regex.matches(in: macAddressString, range: NSRange(location: 0, length: nsString.length))
+            
+            if results.count == 0
+            {
+                returnValue = false
+            }
+        } catch let error as NSError {
+            print("invalid regex: \(error.localizedDescription)")
+            returnValue = false
+        }
+        return  returnValue
+    }
+    
+    /// Will turn a link to data
+    public static func linkToData(url: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let req = URL(string: url)
+        let request =  URLRequest.init(url: req!)
+        URLSession(configuration: .default).dataTask(with: request, completionHandler: completion).resume()
+    }
 }

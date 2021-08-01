@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OsNetworking'
-  s.version          = '0.2.3'
+  s.version          = '0.2.4'
   s.summary          = 'a bunch of tools for iOS/OSX networking development'
 
 # This description is used to generate tags and improve search results.
