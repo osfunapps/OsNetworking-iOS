@@ -85,9 +85,12 @@ public class NetworkTools {
     }
     
     /// Will turn a link to data
-    public static func linkToData(url: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let req = URL(string: url)
-        let request =  URLRequest.init(url: req!)
+    public static func linkToData(link: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        guard let url = URL(string: link) else {
+            completion(nil, nil, AppError.customError("URL no good!"))
+            return
+        }
+        let request = URLRequest.init(url: url)
         URLSession(configuration: .default).dataTask(with: request, completionHandler: completion).resume()
     }
 }
