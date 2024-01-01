@@ -10,70 +10,100 @@ import Foundation
 
 extension UnsafeBufferPointer where Element == UInt8 {
     
-    /// Will read 4 bytes from a buffer to a single (little endian) int
+    /// Reads 4 bytes from the buffer at the specified offset and returns them as a UInt32 (little endian).
     public func readUInt32LE(offset: Int) -> UInt32 {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + 4])
-        let uint32Val = arr!.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 }.pointee
-        arr = nil
-        return UInt32(littleEndian: uint32Val)
+        guard offset >= 0, offset + 3 < count else {
+            fatalError("Buffer access out of bounds")
+        }
+
+        let byte0 = UInt32(self[offset])
+        let byte1 = UInt32(self[offset + 1]) << 8
+        let byte2 = UInt32(self[offset + 2]) << 16
+        let byte3 = UInt32(self[offset + 3]) << 24
+        return byte0 | byte1 | byte2 | byte3
     }
     
-    /// Will read single byte from a buffer to a single (big endian) int
+    /// Reads a single byte from the buffer at the specified offset and returns it as a UInt8 (big endian).
     public func readUInt8BE(offset: Int) -> UInt8 {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + 1])
-        let bigEndianValue = arr!.baseAddress!.withMemoryRebound(to: UInt8.self, capacity: 1) { $0 }.pointee
-        arr = nil
-        return UInt8(bigEndian: bigEndianValue)
+        guard offset >= 0, offset < count else {
+            fatalError("Buffer access out of bounds")
+        }
+
+        return self[offset]
     }
     
-    /// Will read 2 bytes from a buffer to a single (big endian) int
+    /// Reads 2 bytes from the buffer at the specified offset and returns them as a UInt16 (big endian).
     public func readUInt16BE(offset: Int) -> UInt16 {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + 2])
-        let bigEndianValue = arr!.baseAddress!.withMemoryRebound(to: UInt16.self, capacity: 1) { $0 }.pointee
-        arr = nil
-        return UInt16(bigEndian: bigEndianValue)
+        guard offset >= 0, offset + 1 < count else {
+            fatalError("Buffer access out of bounds")
+        }
+
+        let byte0 = UInt16(self[offset]) << 8
+        let byte1 = UInt16(self[offset + 1])
+        return byte0 | byte1
     }
+
     
-    /// Will read 2 bytes from a buffer to a single (little endian) int
-    public func readUInt16LE(offset: Int) -> Int {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + 2])
-        let uint16Val = arr!.baseAddress!.withMemoryRebound(to: UInt16.self, capacity: 1) { $0 }.pointee
-        arr = nil
-        return Int(UInt16(littleEndian: uint16Val))
-    }
+    public func readUInt16LE(from offset: Int) -> UInt16 {
+          guard offset >= 0, offset + 1 < count else {
+              fatalError("Buffer access out of bounds")
+          }
+
+          let lowerByte = UInt16(self[offset])
+          let upperByte = UInt16(self[offset + 1]) << 8
+          return lowerByte | upperByte
+      }
     
-    /// Will read 4 bytes from a buffer to a single (big endian) int
+    /// Reads 4 bytes from the buffer at the specified offset and returns them as a UInt32 (big endian).
     public func readUInt32BE(offset: Int) -> UInt32 {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + 4])
-        let bigEndianValue = arr!.baseAddress!.withMemoryRebound(to: UInt32.self, capacity: 1) { $0 }.pointee
-        arr = nil
-        return UInt32(bigEndian: bigEndianValue)
+        guard offset >= 0, offset + 3 < count else {
+            fatalError("Buffer access out of bounds")
+        }
+
+        let byte0 = UInt32(self[offset]) << 24
+        let byte1 = UInt32(self[offset + 1]) << 16
+        let byte2 = UInt32(self[offset + 2]) << 8
+        let byte3 = UInt32(self[offset + 3])
+        return byte0 | byte1 | byte2 | byte3
     }
     
-    /// Will read 8 bytes from a buffer to a single (big endian) int
+    /// Reads 8 bytes from the buffer at the specified offset and returns them as a UInt64 (little endian).
     public func readUInt64LE(offset: Int) -> UInt64 {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + 8])
-        let uint64Val = arr!.baseAddress!.withMemoryRebound(to: UInt64.self, capacity: 1) { $0 }.pointee
-        arr = nil
-        return UInt64(littleEndian: uint64Val)
+        guard offset >= 0, offset + 7 < count else {
+            fatalError("Buffer access out of bounds")
+        }
+
+        let byte0 = UInt64(self[offset])
+        let byte1 = UInt64(self[offset + 1]) << 8
+        let byte2 = UInt64(self[offset + 2]) << 16
+        let byte3 = UInt64(self[offset + 3]) << 24
+        let byte4 = UInt64(self[offset + 4]) << 32
+        let byte5 = UInt64(self[offset + 5]) << 40
+        let byte6 = UInt64(self[offset + 6]) << 48
+        let byte7 = UInt64(self[offset + 7]) << 56
+        return byte0 | byte1 | byte2 | byte3 | byte4 | byte5 | byte6 | byte7
     }
     
+    /// Converts the buffer to a String using UTF-8 encoding.
     public func toUTFString() -> String? {
         if let string = String(bytes: self, encoding: .utf8) {
             return string
         } else {
             print("not a valid UTF-8 sequence")
-            return ""
+            return nil
         }
     }
     
-    /// Will read bytes to string
+    /// Reads the specified number of bytes from the buffer at the given offset and returns them as a UTF-8 String.
     public func readString(offset: Int, dataLength: Int) -> String {
-        var arr: UnsafeBufferPointer<UInt8>? = UnsafeBufferPointer<UInt8>.init(rebasing: self[offset...offset + dataLength])
-        let str = arr!.toUTFString()!
-        arr = nil
-        return str
+        guard offset >= 0, offset + dataLength <= count else {
+            fatalError("Buffer access out of bounds")
+        }
+
+        let bytes = UnsafeBufferPointer(start: baseAddress?.advanced(by: offset), count: dataLength)
+        return String(bytes: bytes, encoding: .utf8) ?? ""
     }
+
     
 }
 
