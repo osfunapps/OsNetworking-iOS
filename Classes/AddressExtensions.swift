@@ -34,26 +34,22 @@ extension String {
     }
 }
 
-extension Array where Element == Data {
-    
-    /**
-     Will return ipv4 or ipv6 addresses from a data object
-     */
-    public func getIPAddresses() -> [String] {
-        return compactMap(addressToString(data:))
-    }
-    
-    func addressToString(data: Data) -> String? {
-        return data.withUnsafeBytes {
-            let family = $0.baseAddress!.assumingMemoryBound(to: sockaddr_storage.self).pointee.ss_family
-            // family determines which address type to cast to (IPv4 vs IPv6)
-            if family == numericCast(AF_INET) {
-                return String(address: $0.baseAddress!.assumingMemoryBound(to: sockaddr_in.self).pointee.sin_addr)
-            } else if family == numericCast(AF_INET6) {
-                return String(address: $0.baseAddress!.assumingMemoryBound(to: sockaddr_in6.self).pointee.sin6_addr)
+public extension Array where Element == Data {
+    func getIPAddresses(removeScopeIdentifier: Bool = true) -> [String] {
+        var ipAddresses: [String] = []
+        for data in self {
+            var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+            data.withUnsafeBytes { (pointer: UnsafeRawBufferPointer) in
+                let sockaddrPtr = pointer.baseAddress!.assumingMemoryBound(to: sockaddr.self)
+                if getnameinfo(sockaddrPtr, socklen_t(data.count), &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                    var ipAddress = String(cString: hostname)
+                    if removeScopeIdentifier, let percentIndex = ipAddress.firstIndex(of: "%") {
+                        ipAddress = String(ipAddress[..<percentIndex])
+                    }
+                    ipAddresses.append(ipAddress)
+                }
             }
-            return nil
         }
+        return ipAddresses
     }
-    
 }
