@@ -7,81 +7,74 @@
 
 import Foundation
 import OsTools
+import Network
 
 public class NetworkTools {
     
-    /// Will turn an ipv6 address to a mac address
-    public static func ipv6ToMac(ipv6: String) -> String? {
-        var ipv6Copy = ipv6
-        if let subnetIndex = ipv6.firstIndexOf(string: "/") {
-            ipv6Copy = ipv6.substring(0, subnetIndex)
+    @available(iOS 12.0, *)
+    public static func isValidIPv4(_ ip: String) -> Bool {
+        var urlComponents = URLComponents()
+        urlComponents.host = ip
+        if let host = urlComponents.host, let ipAddress = IPv4Address(host) {
+            return true
         }
-        
-        let ipv6Parts = ipv6Copy.split(separator: ":")
-        var macParts = [String]()
-        
-        let startRunning = ipv6Parts.count - 4
-        let endRunning = ipv6Parts.count - 1
-        
-        if startRunning <= 0 || endRunning <= 0 || startRunning > endRunning {
-            return nil
-        }
-        
-        for ipv6PartIdx in startRunning...endRunning {
-            var ipv6Part = ipv6Parts[ipv6PartIdx]
-            while ipv6Part.count < 4 {
-                ipv6Part = "0" + ipv6Part
-            }
-            
-            let str = String(ipv6Part).substring(0, 2)
-            
-            let totalIPv6PartSize = ipv6Part.count
-            let startIPv6Part = totalIPv6PartSize - 2
-            if totalIPv6PartSize >= startIPv6Part {
-                let m = String(ipv6Part).substring(startIPv6Part, totalIPv6PartSize)
-                macParts.append(str)
-                macParts.append(m)
-            }
-        }
-        //  modify parts to match MAC value
-        if macParts.isEmpty {
-            return nil
-        }
-        guard let ans = Int(macParts[0], radix: 16) else {return nil}
-        let ans2 = ans ^ 2
-        macParts[0] = String(format:"%02X", ans2)
-        if macParts.count > 4 {
-            macParts.remove(at: 4)
-        }
-        if macParts.count > 3 {
-            macParts.remove(at: 3)
-        }
-        let macAddrStr = macParts.joined(separator: ":")
-        if isMACAddressValid(macAddressString: macAddrStr) {
-            return macAddrStr
-        } else {
-            return nil
-        }
+        return false
     }
     
+    @available(iOS 12.0, *)
+    public static func isValidIPv6(_ ip: String) -> Bool {
+        var urlComponents = URLComponents()
+        urlComponents.host = ip
+        if let host = urlComponents.host, let _ = IPv6Address(host) {
+            return true
+        }
+        return false
+    }
+    
+    public static func ipv6ToMac(ipv6: String) -> String? {
+        // Remove any scope identifiers (anything after a % sign)
+        let cleanedIPv6 = ipv6.components(separatedBy: "%").first ?? ""
+        
+        // Strip subnet information if present (anything after a /)
+        let subnetStrippedIPv6 = cleanedIPv6.components(separatedBy: "/").first ?? ""
+        
+        let ipv6Parts = subnetStrippedIPv6.split(separator: ":")
+        guard ipv6Parts.count >= 4 else { return nil }
+        
+        // Typically, the MAC address is derived from the last 64 bits (last 4 parts of the IPv6 address)
+        let relevantParts = Array(ipv6Parts.suffix(4))
+        var macParts: [String] = []
+        
+        for part in relevantParts {
+            let paddedPart = part.padding(toLength: 4, withPad: "0", startingAt: 0)
+            macParts.append(String(paddedPart.prefix(2)))
+            macParts.append(String(paddedPart.suffix(2)))
+        }
+        
+        // Modify the first part of the MAC address
+        if let firstPart = Int(macParts[0], radix: 16) {
+            macParts[0] = String(format: "%02X", firstPart ^ 0x02)
+        }
+
+        // Remove unnecessary parts to fit MAC address format
+        macParts.removeSubrange(3...4)
+        
+        // Join to form the final MAC address
+        let macAddress = macParts.joined(separator: ":")
+        return isMACAddressValid(macAddressString: macAddress) ? macAddress : nil
+    }
+
+    
     public static func isMACAddressValid(macAddressString: String) -> Bool {
-        var returnValue = true
         let macRegEx = "^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$" // Format Only: XX:XX:XX:XX:XX:XX
-        //let macRegEx = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" // Format: XX:XX:XX:XX:XX:XX and XX-XX-XX-XX-XX-XX
         do {
             let regex = try NSRegularExpression(pattern: macRegEx)
-            let nsString = macAddressString as NSString
-            let results = regex.matches(in: macAddressString, range: NSRange(location: 0, length: nsString.length))
-            
-            if results.count == 0
-            {
-                returnValue = false
-            }
-        } catch let error as NSError {
-            print("invalid regex: \(error.localizedDescription)")
-            returnValue = false
+            let results = regex.firstMatch(in: macAddressString, range: NSRange(macAddressString.startIndex..., in: macAddressString))
+            return results != nil
+        } catch {
+            print("Invalid regex: \(error.localizedDescription)")
+            return false
         }
-        return  returnValue
     }
     
     /// Will turn a link to data
