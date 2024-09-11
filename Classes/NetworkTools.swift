@@ -78,12 +78,25 @@ public class NetworkTools {
     }
     
     /// Will turn a link to data
-    public static func linkToData(link: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    public static func linkToData(link: String,
+                                  extraHeaders: [String: String] = [:],
+                                  timeoutInterval: TimeInterval = 60, // Default timeout of 60 seconds
+                                  completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         guard let url = URL(string: link) else {
             completion(nil, nil, AppError.customError("URL no good!"))
             return
         }
-        let request = URLRequest.init(url: url)
+        
+        var request = URLRequest(url: url)
+        request.timeoutInterval = timeoutInterval // Set the timeout interval
+
+        // Add any extra headers to the request
+        extraHeaders.forEach { key, value in
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        // Perform the data task
         URLSession(configuration: .default).dataTask(with: request, completionHandler: completion).resume()
     }
+
 }
