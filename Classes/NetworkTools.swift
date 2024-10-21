@@ -8,10 +8,10 @@
 import Foundation
 import OsTools
 import Network
+import SystemConfiguration.CaptiveNetwork
 
 public class NetworkTools {
     
-    @available(iOS 12.0, *)
     public static func isValidIPv4(_ ip: String) -> Bool {
         var urlComponents = URLComponents()
         urlComponents.host = ip
@@ -21,7 +21,6 @@ public class NetworkTools {
         return false
     }
     
-    @available(iOS 12.0, *)
     public static func isValidIPv6(_ ip: String) -> Bool {
         var urlComponents = URLComponents()
         urlComponents.host = ip
@@ -65,6 +64,12 @@ public class NetworkTools {
     }
 
     
+    // Placeholder for MAC address validation function
+    func isMACAddressValid(macAddressString: String) -> Bool {
+            let regex = "^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$"
+        return macAddressString.range(of: regex, options: .regularExpression) != nil
+    }
+    
     public static func isMACAddressValid(macAddressString: String) -> Bool {
         let macRegEx = "^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$" // Format Only: XX:XX:XX:XX:XX:XX
         do {
@@ -76,6 +81,7 @@ public class NetworkTools {
             return false
         }
     }
+    
     
     /// Will turn a link to data
     public static func linkToData(link: String,
@@ -97,6 +103,18 @@ public class NetworkTools {
         
         // Perform the data task
         URLSession(configuration: .default).dataTask(with: request, completionHandler: completion).resume()
+    }
+    
+    /// Will return the WiFi name
+    public static func getWiFiSSID() -> String? {
+        if let interfaces = CNCopySupportedInterfaces() as? [String] {
+            for interface in interfaces {
+                if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as CFString) as? [String: AnyObject] {
+                    return interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
+                }
+            }
+        }
+        return nil
     }
 
 }
