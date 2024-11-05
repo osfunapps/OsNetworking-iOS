@@ -1,5 +1,4 @@
 import XCTest
-import OsNetworking
 
 class Tests: XCTestCase {
     

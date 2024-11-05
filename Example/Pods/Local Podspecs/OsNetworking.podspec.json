@@ -1,6 +1,6 @@
 {
   "name": "OsNetworking",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "summary": "a bunch of tools for iOS/OSX networking development",
   "description": "\"this module contains fundamental networking tools and extensions to implement in an iOS/OSX project.\"",
   "swift_versions": "5.0",
@@ -14,10 +14,10 @@
   },
   "source": {
     "git": "https://github.com/osfunapps/OsNetworking-iOS.git",
-    "tag": "0.2.0"
+    "tag": "0.3.1"
   },
   "platforms": {
-    "ios": "10.0"
+    "ios": "12.0"
   },
   "dependencies": {
     "OsTools": [
