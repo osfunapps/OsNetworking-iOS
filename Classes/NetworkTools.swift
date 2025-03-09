@@ -15,7 +15,8 @@ public class NetworkTools {
     public static func isValidIPv4(_ ip: String) -> Bool {
         var urlComponents = URLComponents()
         urlComponents.host = ip
-        if let host = urlComponents.host, let ipAddress = IPv4Address(host) {
+        if let host = urlComponents.host,
+            let ipAddress = IPv4Address(host) {
             return true
         }
         return false
@@ -84,26 +85,50 @@ public class NetworkTools {
     
     
     /// Will turn a link to data
-    public static func linkToData(link: String,
-                                  extraHeaders: [String: String] = [:],
-                                  timeoutInterval: TimeInterval = 60, // Default timeout of 60 seconds
-                                  completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    public static func linkToData(
+        link: String,
+        extraHeaders: [String: String] = [:],
+        timeoutInterval: TimeInterval = 60
+    ) async throws -> (Data, URLResponse) {
+        // Validate the URL.
         guard let url = URL(string: link) else {
-            completion(nil, nil, AppError.customError("URL no good!"))
-            return
+            throw AppError.customError("Invalid URL")
         }
         
+        // Build the URL request.
         var request = URLRequest(url: url)
-        request.timeoutInterval = timeoutInterval // Set the timeout interval
-
-        // Add any extra headers to the request
+        request.timeoutInterval = timeoutInterval
         extraHeaders.forEach { key, value in
             request.setValue(value, forHTTPHeaderField: key)
         }
         
-        // Perform the data task
-        URLSession(configuration: .default).dataTask(with: request, completionHandler: completion).resume()
+        let session = URLSession(configuration: .default)
+        
+        // Race the data task against a timeout task.
+        return try await withThrowingTaskGroup(of: (Data, URLResponse).self) { group in
+            // Task to perform the data request.
+            group.addTask {
+                return try await session.data(for: request)
+            }
+            
+            // Task that sleeps for the timeout interval then throws.
+            group.addTask {
+                try await Task.sleep(nanoseconds: UInt64(timeoutInterval * 1_000_000_000))
+                throw AppError.timeoutError
+            }
+            
+            // Wait for the first task to complete.
+            let result = try await group.next()!
+            
+            // Cancel the remaining task.
+            group.cancelAll()
+            
+            return result
+        }
     }
+
+
+
     
     /// Will return the WiFi name
     public static func getWiFiSSID() -> String? {
