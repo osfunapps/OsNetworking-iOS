@@ -90,7 +90,7 @@ public class NetworkTools {
         link: String,
         httpMethod: String = "GET",
         extraHeaders: [String: String] = [:],
-        body: String? = nil,
+        body: Data? = nil,
         timeoutMillis: Int = 60000 // default is 60,000 millis (i.e., 60 seconds)
     ) async throws -> (Data, URLResponse) {
         // Validate the URL.
@@ -107,8 +107,8 @@ public class NetworkTools {
         }
         
         // If a body string is provided, set the HTTP body.
-        if let bodyStr = body {
-            request.httpBody = bodyStr.data(using: .utf8)
+        if let body = body {
+            request.httpBody = body
         }
         
         let session = URLSession(configuration: .default)
@@ -134,7 +134,6 @@ public class NetworkTools {
             return result
         }
     }
-
 
 
 
