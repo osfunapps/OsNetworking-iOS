@@ -84,11 +84,14 @@ public class NetworkTools {
     }
     
     
+    
     /// Will turn a link to data
-    public static func linkToData(
+    public static func restRequestToData(
         link: String,
+        httpMethod: String = "GET",
         extraHeaders: [String: String] = [:],
-        timeoutInterval: TimeInterval = 60
+        body: String? = nil,
+        timeoutMillis: Int = 60000 // default is 60,000 millis (i.e., 60 seconds)
     ) async throws -> (Data, URLResponse) {
         // Validate the URL.
         guard let url = URL(string: link) else {
@@ -97,9 +100,15 @@ public class NetworkTools {
         
         // Build the URL request.
         var request = URLRequest(url: url)
-        request.timeoutInterval = timeoutInterval
+        request.timeoutInterval = Double(timeoutMillis) / 1000.0
+        request.httpMethod = httpMethod
         extraHeaders.forEach { key, value in
             request.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        // If a body string is provided, set the HTTP body.
+        if let bodyStr = body {
+            request.httpBody = bodyStr.data(using: .utf8)
         }
         
         let session = URLSession(configuration: .default)
@@ -113,19 +122,19 @@ public class NetworkTools {
             
             // Task that sleeps for the timeout interval then throws.
             group.addTask {
-                try await Task.sleep(nanoseconds: UInt64(timeoutInterval * 1_000_000_000))
+                try await Task.sleep(nanoseconds: UInt64(timeoutMillis * 1_000_000))
                 throw AppError.timeoutError
             }
             
             // Wait for the first task to complete.
-            let result = try await group.next()!
-            
-            // Cancel the remaining task.
+            guard let result = try await group.next() else {
+                throw AppError.customError("Both tasks failed to complete.")
+            }
             group.cancelAll()
-            
             return result
         }
     }
+
 
 
 
